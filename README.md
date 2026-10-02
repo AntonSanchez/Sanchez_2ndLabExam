@@ -47,6 +47,11 @@ Use the instructor's API documentation for payloads and response fields.
 npm install
 npx expo start
 ```
+### Run this on a separate CMD
+
+```sh
+npx json-server-auth db.json -r routes.json --port 3000 --host 0.0.0.0
+```
 
 Press `w` for web, or run `npm run web` directly.
 
