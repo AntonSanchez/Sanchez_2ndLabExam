@@ -1,6 +1,6 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { Redirect, Tabs } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
+import { Redirect, Tabs } from 'expo-router';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 export default function AppLayout() {
   const { token, authLoading } = useAuth();
@@ -13,7 +13,6 @@ export default function AppLayout() {
     );
   }
 
-  // Second line of defence in addition to the guard in the root layout.
   if (!token) {
     return <Redirect href="/sign-in" />;
   }

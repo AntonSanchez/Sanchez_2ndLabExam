@@ -1,9 +1,16 @@
-// TODO EXAM: Use the API base URL provided by the instructor.
-export const API_BASE_URL = "https://jsonplaceholder.typicode.com";
+import { Platform } from "react-native";
 
-// Expected endpoints:
-// POST /login
-// GET /students
-// GET /students/{id}
-// GET /profile
-// TODO EXAM: Confirm request/response fields against the instructor's API documentation.
+const PC_IP_ADDRESS = "";
+
+const host = PC_IP_ADDRESS || (Platform.OS === "android" ? "10.0.2.2" : "localhost");
+
+export const API_BASE_URL = `http://${host}:3000`;
+
+export const API_PATHS = {
+  login: "/login",
+  register: "/register",
+  students: "/students",
+  studentById: (id: string) => `/students/${encodeURIComponent(id)}`,
+  profile: (userId: string) => `/users/${encodeURIComponent(userId)}`,
+};
+

@@ -1,0 +1,60 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "student@example.com",
+      "password": "$2b$10$GDfsPmE15fdVaNuAI0grzuI19mTYtDdcs0Lg1HHv1J7CpJYfQCwma",
+      "name": "Demo Student"
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "name": "Maria Santos",
+      "email": "maria.santos@example.com",
+      "course": "BS Information Technology"
+    },
+    {
+      "id": 2,
+      "name": "Juan Dela Cruz",
+      "email": "juan.delacruz@example.com",
+      "course": "BS Computer Engineering"
+    },
+    {
+      "id": 3,
+      "name": "Ana Reyes",
+      "email": "ana.reyes@example.com",
+      "course": "BS Computer Science"
+    },
+    {
+      "id": 4,
+      "name": "Carlo Mendoza",
+      "email": "carlo.mendoza@example.com",
+      "course": "BS Information Technology"
+    },
+    {
+      "id": 5,
+      "name": "Bea Villanueva",
+      "email": "bea.villanueva@example.com",
+      "course": "BS Electronics Engineering"
+    },
+    {
+      "id": 6,
+      "name": "Paolo Garcia",
+      "email": "paolo.garcia@example.com",
+      "course": "BS Computer Engineering"
+    },
+    {
+      "id": 7,
+      "name": "Isabel Cruz",
+      "email": "isabel.cruz@example.com",
+      "course": "BS Computer Science"
+    },
+    {
+      "id": 8,
+      "name": "Miguel Ramos",
+      "email": "miguel.ramos@example.com",
+      "course": "BS Information Technology"
+    }
+  ]
+}
