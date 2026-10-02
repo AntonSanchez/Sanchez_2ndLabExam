@@ -1,3 +1,5 @@
+import { authHeaders, normalizePerson, pickNested, profileUrl, readJson } from '@/constants/apiHelpers';
+import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Platform } from 'react-native';
@@ -32,9 +34,10 @@ async function isStorageAvailable(): Promise<boolean> {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [authLoading, setAuthLoading] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const login = useCallback(async (accessToken: string, userData: User) => {
     if (await isStorageAvailable()) {
@@ -49,22 +52,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
-    // TODO EXAM: Delete the saved token using SecureStore.deleteItemAsync().
-    // TODO EXAM: Clear token state and user state.
-    // TODO EXAM: Handle storage errors and redirect to /sign-in after logout.
-  }, []);
+    try {
+      if (await isStorageAvailable()) {
+        await SecureStore.deleteItemAsync(TOKEN_KEY);
+      }
+    } catch (e) {
+      console.warn('Could not delete the saved token:', e);
+    } finally {
+      setToken(null);
+      setUser(null);
+      router.replace('/sign-in');
+    }
+  }, [router]);
 
   const restoreSession = useCallback(async () => {
-    // TODO EXAM: Set authLoading while restoring the session.
-    // TODO EXAM: Read the saved token with SecureStore.getItemAsync().
-    // TODO EXAM: Validate the token via GET /profile with a Bearer token.
-    // TODO EXAM: Update token and user state for a valid session.
-    // TODO EXAM: Handle 401 Unauthorized / expired sessions and clear invalid credentials.
-    // TODO EXAM: Handle errors and stop authLoading in finally.
+    setAuthLoading(true);
+    try {
+      if (!(await isStorageAvailable())) return;
+
+      const savedToken = await SecureStore.getItemAsync(TOKEN_KEY);
+      if (!savedToken) return;
+
+      const response = await fetch(profileUrl(savedToken), { headers: authHeaders(savedToken) });
+
+      if (response.status === 401 || response.status === 403) {
+        await SecureStore.deleteItemAsync(TOKEN_KEY);
+        return;
+      }
+      if (!response.ok) {
+        throw new Error(`Profile check failed (${response.status}).`);
+      }
+
+      const json = await readJson(response);
+      const profile = normalizePerson(pickNested<unknown>(json, ['user', 'profile', 'data']) ?? json);
+      setToken(savedToken);
+      setUser(profile);
+    } catch (e) {
+      console.warn('Could not restore the session:', e);
+    } finally {
+      setAuthLoading(false);
+    }
   }, []);
 
   useEffect(() => {
-    // TODO EXAM: Call restoreSession() on startup.
+    restoreSession();
   }, [restoreSession]);
 
   const value = useMemo(

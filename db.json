@@ -5,6 +5,12 @@
       "email": "student@example.com",
       "password": "$2b$10$GDfsPmE15fdVaNuAI0grzuI19mTYtDdcs0Lg1HHv1J7CpJYfQCwma",
       "name": "Demo Student"
+    },
+    {
+      "email": "sanchez@gmail.com",
+      "password": "$2a$10$uvj/0C5gscjM6q/5efvA8u7WfFpTsd.2P9XWsVRefXFbEZDTjrpIG",
+      "name": "Sanchez",
+      "id": 2
     }
   ],
   "students": [
@@ -55,6 +61,12 @@
       "name": "Miguel Ramos",
       "email": "miguel.ramos@example.com",
       "course": "BS Information Technology"
+    },
+    {
+      "userId": 2,
+      "name": "Sanchez",
+      "email": "sanchez@gmail.com",
+      "id": 9
     }
   ]
 }
