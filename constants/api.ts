@@ -1,6 +1,7 @@
 import { Platform } from "react-native";
 
-const PC_IP_ADDRESS = "";
+//if there's a error "Unable to reach the server"
+const PC_IP_ADDRESS = "192.168.1.7"; // Replace with your PC's local IP address.
 
 const host = PC_IP_ADDRESS || (Platform.OS === "android" ? "10.0.2.2" : "localhost");
 
