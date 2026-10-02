@@ -4,11 +4,11 @@
 
 ### Student Information
 
-Name:
+Name: Anton James R. Sanchez
 
-Section:
+Section: CCE 106/L 2063
 
-Date:
+Date: October 01, 2026
 
 ### Required Features
 
