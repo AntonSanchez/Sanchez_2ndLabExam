@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- Setters and imports are reserved for later exam TODOs. */
+import * as SecureStore from 'expo-secure-store';
 import { createContext, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Platform } from 'react-native';
 
 export type User = {
   id?: string | number;
@@ -19,17 +20,32 @@ type AuthContextValue = {
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+const TOKEN_KEY = 'access_token';
+
+async function isStorageAvailable(): Promise<boolean> {
+  if (Platform.OS === 'web') return false;
+  try {
+    return await SecureStore.isAvailableAsync();
+  } catch {
+    return false;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  // False keeps the app usable until session restoration is implemented.
   const [authLoading, setAuthLoading] = useState(false);
 
   const login = useCallback(async (accessToken: string, userData: User) => {
-    // TODO EXAM: Save the access token with SecureStore.setItemAsync().
+    if (await isStorageAvailable()) {
+      try {
+        await SecureStore.setItemAsync(TOKEN_KEY, accessToken);
+      } catch {
+        throw new Error('Could not securely save your session on this device.');
+      }
+    }
     setToken(accessToken);
     setUser(userData);
-    // TODO EXAM: Handle storage failures; never store the password.
   }, []);
 
   const logout = useCallback(async () => {
@@ -56,7 +72,5 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [token, user, authLoading, login, logout, restoreSession],
   );
 
-  // SecureStore is native-only. The web skeleton makes no storage calls.
-  // TODO EXAM: Check platform availability before storage calls; test persistence on Android/iOS.
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
