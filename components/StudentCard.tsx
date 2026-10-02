@@ -1,12 +1,12 @@
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-// TODO EXAM: Match these fields to the provided API response.
 export type Student = {
   id?: string | number;
-  name?: string | null;
-  email?: string | null;
-  course?: string | null;
+  name?: string;
+  email?: string;
+  course?: string;
+  userId?: number;
 };
 
 export default function StudentCard({ student }: { student: Student }) {
