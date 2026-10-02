@@ -23,8 +23,8 @@ export const AuthContext = createContext<AuthContextValue | undefined>(undefined
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  // False keeps the unfinished starter usable; no session has been restored yet.
-  const [authLoading, setAuthLoading] = useState(false);
+  // Starts true: the app waits for session restoration before choosing a screen.
+  const [authLoading, setAuthLoading] = useState(true);
 
   const login = async (accessToken: string, userData: User) => {
     // TODO EXAM: Save the access token with SecureStore.setItemAsync().
